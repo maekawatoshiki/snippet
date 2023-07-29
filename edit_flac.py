@@ -1,5 +1,4 @@
-import mutagen
-from mutagen import File
+from mutagen.id3 import PictureType
 from mutagen.flac import Picture, FLAC
 
 
@@ -7,7 +6,7 @@ def add_flac_cover(audio: FLAC, albumart: str):
     assert albumart.endswith(".jpg") or albumart.endswith(".png")
 
     image = Picture()
-    image.type = mutagen.id3.PictureType.COVER_FRONT
+    image.type = PictureType.COVER_FRONT
     image.mime = "image/jpeg" if albumart.endswith(".jpg") else "image/png"
     with open(albumart, "rb") as f:
         image.data = f.read()
