@@ -1,0 +1,31 @@
+%YAML 1.2
+---
+# objdump for rv32g
+
+name: objdump
+file_extensions:
+  - objdump
+scope: source.objdump
+
+contexts:
+  main:
+    # Function labels
+    - match: '^([0-9a-fA-F]+) <([^>]+)>:$'
+      captures:
+        1: constant.numeric.address.objdump
+        2: entity.name.function.objdump
+
+    # Instruction address, instruction encoding, instruction name
+    - match: '^\s*([0-9a-fA-F]+):\s+([0-9a-fA-F]+)\s+([a-zA-Z_][a-zA-Z_0-9]*)\s+'
+      captures:
+        1: constant.numeric.address.objdump
+        2: constant.numeric.instruction.objdump
+        3: keyword.instruction.name.objdump
+
+    # Registers
+    - match: '\b(x[0-2]?[0-9]|x3[01]|sp|s[0-9]|ra|t[0-2]|a[0-7]|gp)'
+      scope: storage.type.register.objdump
+
+    # Numbers
+    - match: '\b-?(0x)?[0-9a-f]+\b'
+      scope: constant.numeric.decimal.objdump
